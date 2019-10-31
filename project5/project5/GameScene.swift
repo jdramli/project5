@@ -16,21 +16,35 @@ class GameScene: SKScene {
     
     private var lastUpdateTime : TimeInterval = 0
     //variables added from default
-    var bullet = SKShapeNode(circleOfRadius: 10)
+    private var bullet : SKShapeNode?
+    private var hero : SKShapeNode?
     
     override func sceneDidLoad() {
 
         self.lastUpdateTime = 0
-        bullet.position = CGPoint(x: frame.midX, y: frame.midY)
-        bullet.strokeColor = SKColor.white
-        bullet.fillColor = SKColor.white
-        self.addChild(bullet)
+        //Can this Section be shifted to a class file? This might help segregate out modifying hero parameters and interactions
+        self.hero = SKShapeNode.init(rect: (CGRect(x: frame.minX+100, y:frame.minY+100, width: 70, height: 20)))
+        self.hero?.strokeColor = SKColor.yellow
+        self.hero?.fillColor = SKColor.yellow
+        self.addChild(hero!)
+        //Can this Section be shifted to a class file? This might help segregate out modifying bullet parameters and interactions
+        self.bullet = SKShapeNode.init(circleOfRadius: 10)
+        self.bullet?.position = CGPoint(x: frame.midX, y: frame.midY)
+        self.bullet?.strokeColor = SKColor.white
+        self.bullet?.fillColor = SKColor.white
+        self.addChild(bullet!)
     
        
     }
     
     
     func touchDown(atPoint pos : CGPoint) {
+        if let n = self.bullet?.copy() as! SKShapeNode? {
+            n.position = pos
+            n.strokeColor = SKColor.green
+            n.fillColor = SKColor.green
+            self.addChild(n)
+        }
         
     }
     
