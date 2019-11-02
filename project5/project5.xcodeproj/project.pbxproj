@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		7528B2A0236A89C700B899CE /* Bullet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7528B29F236A89C700B899CE /* Bullet.swift */; };
 		7528B2A2236A8BE500B899CE /* README.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 7528B2A1236A8BE500B899CE /* README.rtf */; };
+		755933C5236D2E310035A8EE /* hero.png in Resources */ = {isa = PBXBuildFile; fileRef = 755933C4236D2E300035A8EE /* hero.png */; };
 		756A7EDC2369CCBC00F933B4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756A7EDB2369CCBC00F933B4 /* AppDelegate.swift */; };
 		756A7EDE2369CCBC00F933B4 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 756A7EDD2369CCBC00F933B4 /* GameScene.sks */; };
 		756A7EE02369CCBC00F933B4 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 756A7EDF2369CCBC00F933B4 /* Actions.sks */; };
@@ -41,6 +42,7 @@
 /* Begin PBXFileReference section */
 		7528B29F236A89C700B899CE /* Bullet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bullet.swift; sourceTree = "<group>"; };
 		7528B2A1236A8BE500B899CE /* README.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = README.rtf; sourceTree = SOURCE_ROOT; };
+		755933C4236D2E300035A8EE /* hero.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hero.png; sourceTree = "<group>"; };
 		756A7ED82369CCBC00F933B4 /* project5.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = project5.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		756A7EDB2369CCBC00F933B4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		756A7EDD2369CCBC00F933B4 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -115,6 +117,7 @@
 				756A7EE32369CCBC00F933B4 /* GameViewController.swift */,
 				756A7EE52369CCBC00F933B4 /* Main.storyboard */,
 				756A7EE82369CCBD00F933B4 /* Assets.xcassets */,
+				755933C4236D2E300035A8EE /* hero.png */,
 				7528B2A1236A8BE500B899CE /* README.rtf */,
 				756A7EEA2369CCBD00F933B4 /* LaunchScreen.storyboard */,
 				756A7EED2369CCBD00F933B4 /* Info.plist */,
@@ -247,6 +250,7 @@
 				756A7EE72369CCBC00F933B4 /* Main.storyboard in Resources */,
 				756A7EDE2369CCBC00F933B4 /* GameScene.sks in Resources */,
 				756A7EE92369CCBD00F933B4 /* Assets.xcassets in Resources */,
+				755933C5236D2E310035A8EE /* hero.png in Resources */,
 				756A7EEC2369CCBD00F933B4 /* LaunchScreen.storyboard in Resources */,
 				7528B2A2236A8BE500B899CE /* README.rtf in Resources */,
 				756A7EE02369CCBC00F933B4 /* Actions.sks in Resources */,

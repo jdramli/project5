@@ -23,4 +23,8 @@ Progress log:\
 11/1:  Added ability to copy the "bullet" object and make it appear on position (changed color to green to show copy).\
 	Added a hero object that appears at 0,0, the bottom left corner of the screen (yellow rectangle for now)\
 	Added a pathing section of code to allow the green copied bullet to move along toward a destination.\
-	Encountered major debugging issue where the frame of reference of an SKShapeNode starts at 0,0 BOTTOM LEFT but orienting the bullet copy positions start at 0,0 starting in the MIDDLE OF THE SCREEN.  This could take some time to figure out how to change the frame of references to match up.}
+	Encountered major debugging issue where the frame of reference of an SKShapeNode starts at 0,0 BOTTOM LEFT but orienting the bullet copy positions start at 0,0 starting in the MIDDLE OF THE SCREEN.  This could take some time to figure out how to change the frame of references to match up.\
+\
+11/2: Added the potential for a bullet object as an SKSpriteNode\
+	Manually found x and y adjustments to the offset of "player"!.position or "hero"!.position to make the "bullet" come off from near the edge where the shooter is drawn\
+	Created a moveTo function to instantly move SKNodes to a desired location instantly.}
