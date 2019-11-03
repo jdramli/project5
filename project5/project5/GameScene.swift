@@ -59,43 +59,53 @@ class GameScene: SKScene {
     
     
     func touchDown(atPoint pos : CGPoint) {
+        
+        //First, move player, then create shot. I will use the click to create a moveTo function here for the player and the bullet.  Perhaps other mechanics can be explored for moving the player later, but for now I will make do with this since it is a mobile game.
+        player!.position = pos
+        
         //if let n = self.picbullet?.copy() as! SKSpriteNode? {//uncomment this for picbullet
         if let n = self.bullet?.copy() as! SKShapeNode? { //uncomment this for shape bullet
-            //n.position = pos
-            //n.position = CGPoint(x:-100, y: -100)
-            n.position = CGPoint(x: player!.position.x-30, y: player!.position.y+150)
-            //CRITICAL DEBUGGING ISSUE ENCOUNTERED -- SETTING THIS POSITION TO 0,0 USES THE ORIGINAL SCREEN 0,0 WHICH IS THE MIDDLE.  HOWEVER, THE 0,0 OF AN SKSHAPENODE IS THE BOTTOM-LEFT CORNER OF THE SCREEN.  NEED TO FIND A WAY TO LINK THESE TWO TO THE SAME POINT OF REFERENCE!!!
-            print(player!.position.x,player!.position.y)
-            print(n.position.x,n.position.y)
-            print(player!.size)
-            print(player!.centerRect)
-            n.strokeColor = SKColor.green
-            n.fillColor = SKColor.green
-            
-            self.addChild(n)
-            
-            //hero?.position = CGPoint(x:0,y:0) //IN SPRITEKIT, THE 0,0 POSITION IS THE BOTTOM LEFT CORNER OF THE SCREEN, NOT THE MIDDLE
-            
-            //hero?.position = CGPoint(x:Double.random(in:-100...100), y:Double.random(in:-100...100))
-            
-            //This section of code creates a path object and makes n move along the path
-            let path = UIBezierPath()
-            //path.move(to: CGPoint(x:hero!.position.x,y:hero!.position.y))
-            path.move(to: CGPoint(x:player!.position.x,y:player!.position.y))
-            path.addLine(to: CGPoint(x:0,y:200))
-            let move = SKAction.follow(path.cgPath, asOffset: true, orientToPath: true, speed: 200)
-            n.run(move)
-        }
+                   n.position = player!.anchorPoint //TODO: CRITICAL NOTE, MUST USE "anchorPoint" to generate proper player position when launching a sprite node from the player's "position"
+                  //n.position = CGPoint(x:-100, y: -100)
+                  //n.position = CGPoint(x: player!.position.x-30, y: player!.position.y+150)
+                  //CRITICAL DEBUGGING ISSUE ENCOUNTERED -- SETTING THIS POSITION TO 0,0 USES THE ORIGINAL SCREEN 0,0 WHICH IS THE MIDDLE.  HOWEVER, THE 0,0 OF AN SKSHAPENODE IS THE BOTTOM-LEFT CORNER OF THE SCREEN.  NEED TO FIND A WAY TO LINK THESE TWO TO THE SAME POINT OF REFERENCE!!!
+                  print(player!.position.x,player!.position.y)
+                  print(n.position.x,n.position.y)
+                  print(player!.size)
+                  print(player!.centerRect)
+                  n.strokeColor = SKColor.green
+                  n.fillColor = SKColor.green
+                  
+                  self.addChild(n)
+                  
+                  //hero?.position = CGPoint(x:0,y:0) //IN SPRITEKIT, THE 0,0 POSITION IS THE BOTTOM LEFT CORNER OF THE SCREEN, NOT THE MIDDLE
+                  
+                  //hero?.position = CGPoint(x:Double.random(in:-100...100), y:Double.random(in:-100...100))
+                  
+                  //This section of code creates a path object and makes n move along the path
+                  let bulletpath = UIBezierPath()
+                  //path.move(to: CGPoint(x:hero!.position.x,y:hero!.position.y))
+                  //bulletpath.move(to: CGPoint(x:player!.position.x,y:player!.position.y))
+                   bulletpath.move(to: player!.position)
+                  //path.addLine(to: CGPoint(x:0,y:200)) //bullet shoots toward center.
+                  bulletpath.addLine(to: CGPoint(x:player!.position.x,y:player!.position.y+1500) ) //Added 1500 because that is a significant offscreen distance for the bullet to travel.
+                  let move = SKAction.follow(bulletpath.cgPath, asOffset: true, orientToPath: true, speed: 200)
+                  let sequence = SKAction.sequence([move, .removeFromParent()]) //This "sequence" is critical because it removes the bullet from parent with the function ".removeFromParent()" once the "move" function is complete
+                  n.run(sequence)
+              }
+        
+       
         
         
     }
     
     func touchMoved(toPoint pos : CGPoint) {
         
+        
     }
     
     func touchUp(atPoint pos : CGPoint) {
-       
+        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -132,5 +142,6 @@ class GameScene: SKScene {
         }
         
         self.lastUpdateTime = currentTime
+       
     }
 }
