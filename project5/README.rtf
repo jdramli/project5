@@ -27,4 +27,11 @@ Progress log:\
 \
 11/2: Added the potential for a bullet object as an SKSpriteNode\
 	Manually found x and y adjustments to the offset of "player"!.position or "hero"!.position to make the "bullet" come off from near the edge where the shooter is drawn\
-	Created a moveTo function to instantly move SKNodes to a desired location instantly.}
+	Created a moveTo function to instantly move SKNodes to a desired location instantly.\
+\
+11/3:  Fixed the bug from 11/2 where bullet needed a manual offset.  Instead, bullet comes directly out of playersprite center by calling a start position of player!.anchorPoint.  \
+	Player moves toward cursor click\
+	Added an "enemy" SKSpriteNode object that can adopt many picture-type files as a texture\
+	Created an enemy spawn on timer method that spawns an enemy every 1 second.\
+	Created a path to move that enemy toward the last known player position when the enemy is created.\
+	Next major steps are to get good details in collision detection and start to generate win and player-defeat conditions}

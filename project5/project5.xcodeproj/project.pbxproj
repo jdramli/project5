@@ -20,6 +20,7 @@
 		756A7EEC2369CCBD00F933B4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 756A7EEA2369CCBD00F933B4 /* LaunchScreen.storyboard */; };
 		756A7EF72369CCBD00F933B4 /* project5Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756A7EF62369CCBD00F933B4 /* project5Tests.swift */; };
 		756A7F022369CCBD00F933B4 /* project5UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756A7F012369CCBD00F933B4 /* project5UITests.swift */; };
+		75E26395236E6D4900A3191F /* enemy.png in Resources */ = {isa = PBXBuildFile; fileRef = 75E26394236E6D4900A3191F /* enemy.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 		756A7EFD2369CCBD00F933B4 /* project5UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = project5UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		756A7F012369CCBD00F933B4 /* project5UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = project5UITests.swift; sourceTree = "<group>"; };
 		756A7F032369CCBD00F933B4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		75E26394236E6D4900A3191F /* enemy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = enemy.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +120,7 @@
 				756A7EE52369CCBC00F933B4 /* Main.storyboard */,
 				756A7EE82369CCBD00F933B4 /* Assets.xcassets */,
 				755933C4236D2E300035A8EE /* hero.png */,
+				75E26394236E6D4900A3191F /* enemy.png */,
 				7528B2A1236A8BE500B899CE /* README.rtf */,
 				756A7EEA2369CCBD00F933B4 /* LaunchScreen.storyboard */,
 				756A7EED2369CCBD00F933B4 /* Info.plist */,
@@ -249,6 +252,7 @@
 			files = (
 				756A7EE72369CCBC00F933B4 /* Main.storyboard in Resources */,
 				756A7EDE2369CCBC00F933B4 /* GameScene.sks in Resources */,
+				75E26395236E6D4900A3191F /* enemy.png in Resources */,
 				756A7EE92369CCBD00F933B4 /* Assets.xcassets in Resources */,
 				755933C5236D2E310035A8EE /* hero.png in Resources */,
 				756A7EEC2369CCBD00F933B4 /* LaunchScreen.storyboard in Resources */,
