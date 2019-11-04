@@ -39,12 +39,12 @@ class GameScene: SKScene {
          */
         
         //Can this Section be shifted to a class file? This might help segregate out modifying bullet parameters and interactions
-        self.picbullet = self.childNode(withName: "//bullet") as? SKSpriteNode
+        //self.picbullet = self.childNode(withName: "//bullet") as? SKSpriteNode
         //Adding the option of a shape bullet or a sprite bullet by building both for now
         self.bullet = SKShapeNode.init(circleOfRadius: 10)
         self.bullet?.position = CGPoint(x: frame.midX, y: frame.midY)
-        self.bullet?.strokeColor = SKColor.white
-        self.bullet?.fillColor = SKColor.white
+        self.bullet?.strokeColor = SKColor.gray
+        self.bullet?.fillColor = SKColor.gray
         self.addChild(bullet!)
       
         
@@ -54,8 +54,16 @@ class GameScene: SKScene {
         //let moveRect = SKAction.moveTo(x: 74.0, duration: 0) //This was just a test line
         //player!.run(moveRect) //This was just a test line
         
-        //make a path for the white circle to move
+        //Set Physics bodies
+        //player
+        self.player?.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 74, height: 97))
+        self.player?.physicsBody?.affectedByGravity = false
+        //enemy
+        self.enemy?.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 109, height: 82))
+        self.enemy?.physicsBody?.affectedByGravity = false
         
+        //self.enemy?.isHidden = true
+        //self.enemy?.removeFromParent() // this creates a funny glitch where enemies spawn from the center.
         //MyNotes; Create a timer cycle to generate the enemy objects every few seconds
         gameTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(runTimedCode), userInfo: nil, repeats: true)
         
