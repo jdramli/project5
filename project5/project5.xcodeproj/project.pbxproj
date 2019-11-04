@@ -21,6 +21,7 @@
 		756A7EF72369CCBD00F933B4 /* project5Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756A7EF62369CCBD00F933B4 /* project5Tests.swift */; };
 		756A7F022369CCBD00F933B4 /* project5UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756A7F012369CCBD00F933B4 /* project5UITests.swift */; };
 		75B245C823707CCE00FE455E /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75B245C723707CCE00FE455E /* StartViewController.swift */; };
+		75B245CA23708C3500FE455E /* LeaderBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75B245C923708C3500FE455E /* LeaderBoardViewController.swift */; };
 		75E26395236E6D4900A3191F /* enemy.png in Resources */ = {isa = PBXBuildFile; fileRef = 75E26394236E6D4900A3191F /* enemy.png */; };
 /* End PBXBuildFile section */
 
@@ -62,6 +63,7 @@
 		756A7F012369CCBD00F933B4 /* project5UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = project5UITests.swift; sourceTree = "<group>"; };
 		756A7F032369CCBD00F933B4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		75B245C723707CCE00FE455E /* StartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
+		75B245C923708C3500FE455E /* LeaderBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderBoardViewController.swift; sourceTree = "<group>"; };
 		75E26394236E6D4900A3191F /* enemy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = enemy.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -119,6 +121,7 @@
 				756A7EE12369CCBC00F933B4 /* GameScene.swift */,
 				7528B29F236A89C700B899CE /* Bullet.swift */,
 				756A7EE32369CCBC00F933B4 /* GameViewController.swift */,
+				75B245C923708C3500FE455E /* LeaderBoardViewController.swift */,
 				75B245C723707CCE00FE455E /* StartViewController.swift */,
 				756A7EE52369CCBC00F933B4 /* Main.storyboard */,
 				756A7EE82369CCBD00F933B4 /* Assets.xcassets */,
@@ -289,6 +292,7 @@
 				756A7EE22369CCBC00F933B4 /* GameScene.swift in Sources */,
 				756A7EE42369CCBC00F933B4 /* GameViewController.swift in Sources */,
 				756A7EDC2369CCBC00F933B4 /* AppDelegate.swift in Sources */,
+				75B245CA23708C3500FE455E /* LeaderBoardViewController.swift in Sources */,
 				7528B2A0236A89C700B899CE /* Bullet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

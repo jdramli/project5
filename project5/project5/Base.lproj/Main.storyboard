@@ -7,10 +7,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Start View Controller-->
         <scene sceneID="4WR-HH-XIx">
             <objects>
-                <viewController id="udu-Ka-gxK" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="StartViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="udu-Ka-gxK" customClass="StartViewController" customModule="project5" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="wuY-wH-0Yd">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -48,9 +48,20 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t3z-7I-qV5">
-                                <rect key="frame" x="41" y="21" width="34" height="30"/>
+                                <rect key="frame" x="43" y="21" width="30" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Back"/>
+                                <state key="normal" title="Quit"/>
+                                <connections>
+                                    <segue destination="9IZ-CV-jJe" kind="unwind" unwindAction="unwindToStartViewControllerWithSegue:" id="cN6-Rx-fjG"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BUY-ZJ-hKq">
+                                <rect key="frame" x="323" y="21" width="78" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Highscores"/>
+                                <connections>
+                                    <segue destination="9nY-wU-aFg" kind="show" id="3c1-Fo-ewH"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -59,23 +70,44 @@
                     <navigationItem key="navigationItem" id="0aS-Zg-wbu"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
+                <exit id="9IZ-CV-jJe" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="139" y="110"/>
         </scene>
         <!--View Controller-->
-        <scene sceneID="ucj-12-OXr">
+        <scene sceneID="CqS-gs-c9B">
             <objects>
-                <viewController id="ZMN-yP-NEd" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="6yJ-Nm-Uph">
+                <viewController modalPresentationStyle="fullScreen" id="9nY-wU-aFg" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ZXm-N9-OfC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7GR-54-Ykm">
+                                <rect key="frame" x="60" y="44" width="86" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Start Screen"/>
+                                <connections>
+                                    <segue destination="wcC-4o-k8J" kind="unwind" unwindAction="unwindToStartViewControllerWithSegue:" id="SQp-kc-zKc"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xtw-XW-SKE">
+                                <rect key="frame" x="261" y="44" width="93" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Game Screen"/>
+                                <connections>
+                                    <segue destination="wcC-4o-k8J" kind="unwind" unwindAction="unwindToGameViewControllerWithSegue:" id="lEH-NH-6Je"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <viewLayoutGuide key="safeArea" id="RRC-Er-EMP"/>
+                        <viewLayoutGuide key="safeArea" id="TPC-y9-Bx1"/>
                     </view>
+                    <navigationItem key="navigationItem" id="KHk-HL-3sR"/>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="z4C-hu-rIs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3bY-Lk-rpx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="wcC-4o-k8J" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="878" y="110"/>
+            <point key="canvasLocation" x="851" y="110"/>
         </scene>
     </scenes>
 </document>

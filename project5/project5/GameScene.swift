@@ -43,8 +43,8 @@ class GameScene: SKScene {
         //Adding the option of a shape bullet or a sprite bullet by building both for now
         self.bullet = SKShapeNode.init(circleOfRadius: 10)
         self.bullet?.position = CGPoint(x: frame.midX, y: frame.midY)
-        self.bullet?.strokeColor = SKColor.gray
-        self.bullet?.fillColor = SKColor.gray
+        self.bullet?.strokeColor = SKColor.white
+        self.bullet?.fillColor = SKColor.white
         self.addChild(bullet!)
       
         
@@ -62,6 +62,8 @@ class GameScene: SKScene {
         self.enemy?.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 109, height: 82))
         self.enemy?.physicsBody?.affectedByGravity = false
         
+        self.bullet?.physicsBody = SKPhysicsBody(circleOfRadius: 10)
+        self.bullet?.physicsBody?.affectedByGravity = false
         //self.enemy?.isHidden = true
         //self.enemy?.removeFromParent() // this creates a funny glitch where enemies spawn from the center.
         //MyNotes; Create a timer cycle to generate the enemy objects every few seconds
