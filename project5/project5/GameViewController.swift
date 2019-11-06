@@ -37,6 +37,7 @@ class GameViewController: UIViewController {
                     
                     view.showsFPS = true
                     view.showsNodeCount = true
+                    view.showsPhysics = true // Added this to show physics body outlines
                 }
             }
         }

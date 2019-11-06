@@ -10,7 +10,13 @@ import CoreGraphics
 import SpriteKit
 import GameplayKit
 
-class GameScene: SKScene {
+enum CollisionType: UInt32{
+    case player = 1
+    case bullet = 2
+    case enemy = 4
+}
+
+class GameScene: SKScene, SKPhysicsContactDelegate { //Added SKPhysicsContactDelegate to make sure the physics contact functions can be written.
     
     var entities = [GKEntity]()
     var graphs = [String : GKGraph]()
@@ -56,19 +62,30 @@ class GameScene: SKScene {
         
         //Set Physics bodies
         //player
-        self.player?.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 74, height: 97))
+        //self.player?.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 74, height: 97)) //This was a physics body of the player rectangle
+        self.player?.physicsBody = SKPhysicsBody(texture: (player?.texture!)!, size: (player?.texture!.size())!) //This sets the physics body to the actual texture size and shape.
         self.player?.physicsBody?.affectedByGravity = false
         //enemy
         self.enemy?.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 109, height: 82))
         self.enemy?.physicsBody?.affectedByGravity = false
         
         self.bullet?.physicsBody = SKPhysicsBody(circleOfRadius: 10)
+        //self.bullet?.physicsBody = SKPhysicsBody(rectangleOf: CGSize (width: 100, height: 100))
         self.bullet?.physicsBody?.affectedByGravity = false
+        self.bullet?.physicsBody?.mass = 20
         //self.enemy?.isHidden = true
         //self.enemy?.removeFromParent() // this creates a funny glitch where enemies spawn from the center.
         //MyNotes; Create a timer cycle to generate the enemy objects every few seconds
         gameTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(runTimedCode), userInfo: nil, repeats: true)
         
+        
+        //MyNotes: Create physics interactions using the enum UInt32 bitmasks above
+        player!.physicsBody?.categoryBitMask = CollisionType.player.rawValue
+        enemy!.physicsBody?.categoryBitMask = CollisionType.enemy.rawValue
+
+        player!.physicsBody?.collisionBitMask = CollisionType.enemy.rawValue
+        enemy!.physicsBody?.collisionBitMask = CollisionType.bullet.rawValue | CollisionType.player.rawValue
+        enemy!.physicsBody?.contactTestBitMask = CollisionType.bullet.rawValue
     
        
     }
@@ -88,6 +105,28 @@ class GameScene: SKScene {
         }
     }
     
+    //This function is necessary for physics contact body interactions.
+    override func didMove(to view: SKView){
+        physicsWorld.contactDelegate = self
+    }
+    func didBegin(_ contact: SKPhysicsContact){ //This function determines when contact happens
+        
+        guard let nodeA = contact.bodyA.node else { return }
+        guard let nodeB = contact.bodyB.node else { return }
+        //This creates the contact nodes, but we don't know which nodes correspond to which contact yet, so the next lines are to sort the nodes and make sure they can be organized into a trackable way.
+        let sortedNodes = [nodeA, nodeB].sorted { $0.name ?? "" < $1.name ?? "" } //This just sorts them in alphabetical order by name i.e. bullet, enemy, player.
+        
+        //This setup makes it so that if there is ANY contact of the 3 contacts now, then "player" will be nodeB because it is last.  Bullet would be nodeA, and enemy could be either (node B if colliding with bullet and node A if colliding with player).
+        let firstNode = sortedNodes[0]
+        let secondNode = sortedNodes[1]
+        
+        if ( secondNode.name == "enemy"){
+            secondNode.removeFromParent()
+        }
+        
+        
+        
+    }
     func touchDown(atPoint pos : CGPoint) {
         
         //MyNotes: First, move player, then create shot. The moveTo function proved to be a bit tricky/buggy, so I implemented the quick fix below of fixing the y position.
