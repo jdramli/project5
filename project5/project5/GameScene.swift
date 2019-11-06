@@ -10,6 +10,7 @@ import CoreGraphics
 import SpriteKit
 import GameplayKit
 
+//This enum type is to create a quick unique collision bitmask by increasing by power of 2.
 enum CollisionType: UInt32{
     case player = 1
     case bullet = 2
@@ -27,9 +28,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate { //Added SKPhysicsContactDel
     private var hero : SKShapeNode? //Opted not to use this for now as of 11/3/19
     
     private var bullet : SKShapeNode?
+    private var upgrade : SKShapeNode? //creating a power_up node
     private var player : SKSpriteNode?
     private var enemy : SKSpriteNode?
     private var gameTimer: Timer? //Timer object to be called regularly
+    private var count_label : SKLabelNode?
+    private var kill_count = 0;
+    
+    private var powerup = 0
     
     override func sceneDidLoad() {
 
@@ -57,6 +63,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate { //Added SKPhysicsContactDel
         
         self.player = self.childNode(withName: "//hero") as? SKSpriteNode
         self.enemy = self.childNode(withName: "//enemy") as? SKSpriteNode
+        self.count_label = self.childNode(withName: "//count_label") as? SKLabelNode
         //let moveRect = SKAction.moveTo(x: 74.0, duration: 0) //This was just a test line
         //player!.run(moveRect) //This was just a test line
         
@@ -73,6 +80,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate { //Added SKPhysicsContactDel
         //self.bullet?.physicsBody = SKPhysicsBody(rectangleOf: CGSize (width: 100, height: 100))
         self.bullet?.physicsBody?.affectedByGravity = false
         self.bullet?.physicsBody?.mass = 20
+        self.bullet?.position = CGPoint(x: 800, y: 300) //Moves initial bullet image offscreen out of play at 800x so that it doesn't interfere with gameplay.
+        
         //self.enemy?.isHidden = true
         //self.enemy?.removeFromParent() // this creates a funny glitch where enemies spawn from the center.
         //MyNotes; Create a timer cycle to generate the enemy objects every few seconds
@@ -91,6 +100,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate { //Added SKPhysicsContactDel
     }
     
     @objc func runTimedCode(){
+        //create enemy nodes
         if let e = self.enemy?.copy() as! SKSpriteNode?{
             e.position = player!.anchorPoint
             self.addChild(e)
@@ -103,6 +113,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate { //Added SKPhysicsContactDel
             let sequence = SKAction.sequence([move, .removeFromParent()]) //This "sequence" is critical because it removes the bullet from parent with the function ".removeFromParent()" once the "move" function is complete
             e.run(sequence)
         }
+        
+        //create  upgrade power-up nodes
+        if let u = self.upgrade?.copy() as! SKShapeNode?{
+            
+        }
+        
     }
     
     //This function is necessary for physics contact body interactions.
@@ -120,9 +136,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate { //Added SKPhysicsContactDel
         let firstNode = sortedNodes[0]
         let secondNode = sortedNodes[1]
         
-        if ( secondNode.name == "enemy"){
+        if (secondNode.name == "enemy"){
+            firstNode.removeFromParent()
             secondNode.removeFromParent()
+            kill_count += 1
+            count_label!.text = "Bugs Busted: " + String(kill_count)
         }
+        
         
         
         
@@ -152,7 +172,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate { //Added SKPhysicsContactDel
               //This section of code creates a path object and makes n move along the path
               let bulletpath = UIBezierPath()
               
-               bulletpath.move(to: player!.position)
+               //bulletpath.move(to: player!.position) //makes player twist
+             bulletpath.move(to: CGPoint( x: player!.position.x, y: player!.position.y + 50) ) // makes player not twist, by moving the start location.
               //path.addLine(to: CGPoint(x:0,y:200)) //bullet shoots toward center.
               bulletpath.addLine(to: CGPoint(x:player!.position.x,y:player!.position.y+1500) ) //Added 1500 because that is a significant offscreen distance for the bullet to travel.
               let move = SKAction.follow(bulletpath.cgPath, asOffset: true, orientToPath: true, speed: 500)
