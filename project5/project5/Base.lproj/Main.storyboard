@@ -30,6 +30,14 @@
                                     <segue destination="BV1-FR-VrT" kind="show" id="t4f-tK-yy5"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vu1-Fr-PxT">
+                                <rect key="frame" x="146" y="358" width="88" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="LeaderBoard"/>
+                                <connections>
+                                    <segue destination="9nY-wU-aFg" kind="show" id="EuC-xj-EsJ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="JyY-zT-9E2"/>
@@ -74,10 +82,10 @@
             </objects>
             <point key="canvasLocation" x="139" y="110"/>
         </scene>
-        <!--View Controller-->
+        <!--Leader Board View Controller-->
         <scene sceneID="CqS-gs-c9B">
             <objects>
-                <viewController modalPresentationStyle="fullScreen" id="9nY-wU-aFg" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="9nY-wU-aFg" customClass="LeaderBoardViewController" customModule="project5" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ZXm-N9-OfC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -87,7 +95,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Start Screen"/>
                                 <connections>
-                                    <segue destination="wcC-4o-k8J" kind="unwind" unwindAction="unwindToStartViewControllerWithSegue:" id="SQp-kc-zKc"/>
+                                    <segue destination="wcC-4o-k8J" kind="unwind" unwindAction="unwindToStartViewControllerWithSegue:" id="IZC-32-K2R"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xtw-XW-SKE">
@@ -95,7 +103,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Game Screen"/>
                                 <connections>
-                                    <segue destination="wcC-4o-k8J" kind="unwind" unwindAction="unwindToGameViewControllerWithSegue:" id="lEH-NH-6Je"/>
+                                    <segue destination="wcC-4o-k8J" kind="unwind" unwindAction="unwindToGameViewControllerWithSegue:" id="XvI-X3-9eW"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -110,4 +118,7 @@
             <point key="canvasLocation" x="851" y="110"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="EuC-xj-EsJ"/>
+    </inferredMetricsTieBreakers>
 </document>

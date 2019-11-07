@@ -59,7 +59,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate { //Added SKPhysicsContactDel
         self.bullet?.fillColor = SKColor.white
         self.addChild(bullet!)
       
-        
+        self.upgrade = SKShapeNode.init(circleOfRadius: 30)
+        self.upgrade?.position = CGPoint(x: frame.midX + 40, y: frame.midY + 100)
+        self.upgrade?.strokeColor = SKColor.red
+        self.upgrade?.fillColor = SKColor.red
+        self.addChild(upgrade!)
         
         self.player = self.childNode(withName: "//hero") as? SKSpriteNode
         self.enemy = self.childNode(withName: "//enemy") as? SKSpriteNode
@@ -81,6 +85,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate { //Added SKPhysicsContactDel
         self.bullet?.physicsBody?.affectedByGravity = false
         self.bullet?.physicsBody?.mass = 20
         self.bullet?.position = CGPoint(x: 800, y: 300) //Moves initial bullet image offscreen out of play at 800x so that it doesn't interfere with gameplay.
+        self.upgrade?.position = CGPoint(x: 800, y: -300) //Moves initial upgrade image offscreen out of play at 800x so that it doesn't interfere with gameplay.
         
         //self.enemy?.isHidden = true
         //self.enemy?.removeFromParent() // this creates a funny glitch where enemies spawn from the center.
@@ -101,22 +106,45 @@ class GameScene: SKScene, SKPhysicsContactDelegate { //Added SKPhysicsContactDel
     
     @objc func runTimedCode(){
         //create enemy nodes
+        let multiplier = 2
+        //let multiplier = kill_count / 10 //MyNotes: This can varied in equation style to vary bug speed a lot
         if let e = self.enemy?.copy() as! SKSpriteNode?{
             e.position = player!.anchorPoint
             self.addChild(e)
             let enemy_path = UIBezierPath()
+            //adding a speed multiplier based on kill_count
             
             enemy_path.move(to: CGPoint(x: Double.random(in:-300...300), y: 590))
             //path.addLine(to: CGPoint(x:0,y:200)) //bullet shoots toward center.
             enemy_path.addLine(to: CGPoint(x:player!.position.x,y:player!.position.y-1500) ) //Added 1500 because that is a significant offscreen distance for the bullet to travel.
-            let move = SKAction.follow(enemy_path.cgPath, asOffset: true, orientToPath: true, speed: 200)
-            let sequence = SKAction.sequence([move, .removeFromParent()]) //This "sequence" is critical because it removes the bullet from parent with the function ".removeFromParent()" once the "move" function is complete
-            e.run(sequence)
+            let move = SKAction.follow(enemy_path.cgPath, asOffset: true, orientToPath: true, speed: CGFloat(200*multiplier)) //MyNotes: remove 'multiplier' to go back to basic launch
+            let enemy_sequence = SKAction.sequence([move, .removeFromParent()]) //This "sequence" is critical because it removes the bullet from parent with the function ".removeFromParent()" once the "move" function is complete
+            e.run(enemy_sequence)
+            /*
+            if(e.position.y < -600){
+                let lose : SKLabelNode?
+                print("Bug Escaped!")
+                
+            } */
         }
         
         //create  upgrade power-up nodes
         if let u = self.upgrade?.copy() as! SKShapeNode?{
-            
+            u.position = player!.anchorPoint
+            self.addChild(u)
+            u.strokeColor = SKColor.red
+            u.fillColor = SKColor.red
+            let upgrade_path = UIBezierPath()
+            upgrade_path.move(to: CGPoint(x: Double.random(in:-300...300), y: 590))
+            upgrade_path.addLine(to: CGPoint( x: Double.random(in:-300...300), y: 300))
+            for i in 1...10{
+                let temp = Float(Double(u.position.y) - (100.0*Double(i)))
+                upgrade_path.addLine(to: CGPoint( x: Double.random(in:-300...300), y: Double(temp)))
+            }
+           
+            let move = SKAction.follow(upgrade_path.cgPath, asOffset: true, orientToPath: true, speed: 300)
+            let upgrade_sequence = SKAction.sequence([move, .removeFromParent()])
+            u.run(upgrade_sequence)
         }
         
     }
@@ -142,7 +170,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate { //Added SKPhysicsContactDel
             kill_count += 1
             count_label!.text = "Bugs Busted: " + String(kill_count)
         }
-        
+        /*
+        MyNotes: Contact Collision detection is not working here for some reason
+        else if(firstNode.name == "player"){
+            print("player and enemy contact")
+        }
+        */
         
         
         
@@ -229,6 +262,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate { //Added SKPhysicsContactDel
         }
         
         self.lastUpdateTime = currentTime
+        //Singleton.shared.bugs_busted = kill_count
        
     }
 }

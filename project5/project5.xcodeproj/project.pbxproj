@@ -22,6 +22,7 @@
 		756A7F022369CCBD00F933B4 /* project5UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756A7F012369CCBD00F933B4 /* project5UITests.swift */; };
 		75B245C823707CCE00FE455E /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75B245C723707CCE00FE455E /* StartViewController.swift */; };
 		75B245CA23708C3500FE455E /* LeaderBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75B245C923708C3500FE455E /* LeaderBoardViewController.swift */; };
+		75C3DEA72374B7EE007B619B /* Singleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75C3DEA62374B7EE007B619B /* Singleton.swift */; };
 		75E26395236E6D4900A3191F /* enemy.png in Resources */ = {isa = PBXBuildFile; fileRef = 75E26394236E6D4900A3191F /* enemy.png */; };
 /* End PBXBuildFile section */
 
@@ -64,6 +65,7 @@
 		756A7F032369CCBD00F933B4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		75B245C723707CCE00FE455E /* StartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
 		75B245C923708C3500FE455E /* LeaderBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderBoardViewController.swift; sourceTree = "<group>"; };
+		75C3DEA62374B7EE007B619B /* Singleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Singleton.swift; sourceTree = "<group>"; };
 		75E26394236E6D4900A3191F /* enemy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = enemy.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -123,6 +125,7 @@
 				756A7EE32369CCBC00F933B4 /* GameViewController.swift */,
 				75B245C923708C3500FE455E /* LeaderBoardViewController.swift */,
 				75B245C723707CCE00FE455E /* StartViewController.swift */,
+				75C3DEA62374B7EE007B619B /* Singleton.swift */,
 				756A7EE52369CCBC00F933B4 /* Main.storyboard */,
 				756A7EE82369CCBD00F933B4 /* Assets.xcassets */,
 				755933C4236D2E300035A8EE /* hero.png */,
@@ -289,6 +292,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				75B245C823707CCE00FE455E /* StartViewController.swift in Sources */,
+				75C3DEA72374B7EE007B619B /* Singleton.swift in Sources */,
 				756A7EE22369CCBC00F933B4 /* GameScene.swift in Sources */,
 				756A7EE42369CCBC00F933B4 /* GameViewController.swift in Sources */,
 				756A7EDC2369CCBC00F933B4 /* AppDelegate.swift in Sources */,
