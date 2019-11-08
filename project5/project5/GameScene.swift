@@ -5,7 +5,7 @@
 //  Created by Joseph Daniel Ramli on 10/30/19.
 //  Copyright © 2019 Joseph Daniel Ramli. All rights reserved.
 //
-
+//MyNotes: The MyNotes: sections create a way to search and find helpful structural tidbits that I discovered while building this code, and may help in future projects.
 import CoreGraphics
 import SpriteKit
 import GameplayKit
@@ -15,6 +15,7 @@ enum CollisionType: UInt32{
     case player = 1
     case bullet = 2
     case enemy = 4
+    case upgrade = 8
 }
 
 class GameScene: SKScene, SKPhysicsContactDelegate { //Added SKPhysicsContactDelegate to make sure the physics contact functions can be written.
@@ -35,7 +36,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate { //Added SKPhysicsContactDel
     private var count_label : SKLabelNode?
     private var kill_count = 0;
     
-    private var powerup = 0
+    private var bullet_power_up = 0
     
     override func sceneDidLoad() {
 
@@ -54,18 +55,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate { //Added SKPhysicsContactDel
         //self.picbullet = self.childNode(withName: "//bullet") as? SKSpriteNode
         //Adding the option of a shape bullet or a sprite bullet by building both for now
         self.bullet = SKShapeNode.init(circleOfRadius: 10)
+        self.bullet?.name = "bullet" //MyNotes: Added name here for Collision detection
         self.bullet?.position = CGPoint(x: frame.midX, y: frame.midY)
         self.bullet?.strokeColor = SKColor.white
         self.bullet?.fillColor = SKColor.white
         self.addChild(bullet!)
       
         self.upgrade = SKShapeNode.init(circleOfRadius: 30)
+        self.upgrade?.name = "upgrade" //MyNotes: Added name here for Collision detection
         self.upgrade?.position = CGPoint(x: frame.midX + 40, y: frame.midY + 100)
         self.upgrade?.strokeColor = SKColor.red
         self.upgrade?.fillColor = SKColor.red
         self.addChild(upgrade!)
         
-        self.player = self.childNode(withName: "//hero") as? SKSpriteNode
+        self.player = self.childNode(withName: "//player") as? SKSpriteNode
         self.enemy = self.childNode(withName: "//enemy") as? SKSpriteNode
         self.count_label = self.childNode(withName: "//count_label") as? SKLabelNode
         //let moveRect = SKAction.moveTo(x: 74.0, duration: 0) //This was just a test line
@@ -79,6 +82,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate { //Added SKPhysicsContactDel
         //enemy
         self.enemy?.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 109, height: 82))
         self.enemy?.physicsBody?.affectedByGravity = false
+        self.enemy?.physicsBody?.mass = 200
         
         self.bullet?.physicsBody = SKPhysicsBody(circleOfRadius: 10)
         //self.bullet?.physicsBody = SKPhysicsBody(rectangleOf: CGSize (width: 100, height: 100))
@@ -86,6 +90,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate { //Added SKPhysicsContactDel
         self.bullet?.physicsBody?.mass = 20
         self.bullet?.position = CGPoint(x: 800, y: 300) //Moves initial bullet image offscreen out of play at 800x so that it doesn't interfere with gameplay.
         self.upgrade?.position = CGPoint(x: 800, y: -300) //Moves initial upgrade image offscreen out of play at 800x so that it doesn't interfere with gameplay.
+        self.upgrade?.physicsBody?.affectedByGravity = false
+        self.upgrade?.physicsBody?.mass = 40
         
         //self.enemy?.isHidden = true
         //self.enemy?.removeFromParent() // this creates a funny glitch where enemies spawn from the center.
@@ -96,10 +102,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate { //Added SKPhysicsContactDel
         //MyNotes: Create physics interactions using the enum UInt32 bitmasks above
         player!.physicsBody?.categoryBitMask = CollisionType.player.rawValue
         enemy!.physicsBody?.categoryBitMask = CollisionType.enemy.rawValue
+        upgrade!.physicsBody?.categoryBitMask = CollisionType.upgrade.rawValue
 
-        player!.physicsBody?.collisionBitMask = CollisionType.enemy.rawValue
+        player!.physicsBody?.collisionBitMask = CollisionType.enemy.rawValue | CollisionType.upgrade.rawValue //This line creates player to enemy collision detection ability, and uses a single bitwise "or" (|) operator to add possible interaction with "upgrade" nodes
         enemy!.physicsBody?.collisionBitMask = CollisionType.bullet.rawValue | CollisionType.player.rawValue
-        enemy!.physicsBody?.contactTestBitMask = CollisionType.bullet.rawValue
+       
+        
+        player!.physicsBody?.contactTestBitMask = CollisionType.enemy.rawValue | CollisionType.player.rawValue
+        enemy!.physicsBody?.contactTestBitMask = CollisionType.bullet.rawValue //This line creates bullet to enemy contact detection
+        
     
        
     }
@@ -164,18 +175,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate { //Added SKPhysicsContactDel
         let firstNode = sortedNodes[0]
         let secondNode = sortedNodes[1]
         
-        if (secondNode.name == "enemy"){
+        if secondNode.name == "enemy" { //shortcut here because if enemy is the second node then we know that the first can only be "bullet" because of the names of the classes "bullet, enemy, player, upgrade" are sorted in that order above.
             firstNode.removeFromParent()
             secondNode.removeFromParent()
             kill_count += 1
             count_label!.text = "Bugs Busted: " + String(kill_count)
         }
-        /*
-        MyNotes: Contact Collision detection is not working here for some reason
-        else if(firstNode.name == "player"){
-            print("player and enemy contact")
+            // MyNotes: Contact Collision detection is not working here for some reason --FIXED --  have to make sure the contact bitmask is set above! -- "player!.physicsBody?.contactTestBitMask = CollisionType.enemy.rawValue"
+        else if( ((firstNode.name == "enemy") && (secondNode.name == "player")) ){
+            print("hero has been hit!")
+            //player?.removeFromParent()
+            
         }
-        */
+        else if( ((firstNode.name == "player") && (secondNode.name == "upgrade"))  ){
+            bullet_power_up += 1
+            print("Upgrade contact!" + String(bullet_power_up))
+        }
+        
         
         
         
@@ -193,8 +209,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate { //Added SKPhysicsContactDel
               //n.position = CGPoint(x:-100, y: -100)
               //n.position = CGPoint(x: player!.position.x-30, y: player!.position.y+150)
               //CRITICAL DEBUGGING ISSUE ENCOUNTERED -- SETTING THIS POSITION TO 0,0 USES THE ORIGINAL SCREEN 0,0 WHICH IS THE MIDDLE.  HOWEVER, THE 0,0 OF AN SKSHAPENODE IS THE BOTTOM-LEFT CORNER OF THE SCREEN.  NEED TO FIND A WAY TO LINK THESE TWO TO THE SAME POINT OF REFERENCE!!!
-              print(pos)
-              print(player!.anchorPoint)//anchor point is (0.5,0.5).  This seems to be a basis point for where the player position is derived?
+              //print(pos)
+              //print(player!.anchorPoint)//anchor point is (0.5,0.5).  This seems to be a basis point for where the player position is derived?
 
               n.strokeColor = SKColor.green
               n.fillColor = SKColor.green
