@@ -13,13 +13,13 @@ import UIKit
 class Singleton{
     
     static let shared = Singleton()
-    var int_highscores : [Int] = [1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,
-                              1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,]
+    var int_highscores : [Int] = [0,0,0,0,0,0,0,0,0,0,
+                              0,0,0,0,0,0,0,0,0,0,]
     
     var highscores : [String] = ["0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0",]
     var bugs_busted = 0
     var background_color : UIColor = UIColor.orange
-    var recent_moves = 0
+    var recent_bugs_busted = 0
     
     private init(){
         

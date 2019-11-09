@@ -36,7 +36,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate { //Added SKPhysicsContactDel
     private var count_label : SKLabelNode?
     private var kill_count = 0;
     
-    private var bullet_power_up = 0
+    private var bullet_power_up = 1
     
     override func sceneDidLoad() {
 
@@ -84,11 +84,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate { //Added SKPhysicsContactDel
         self.enemy?.physicsBody?.affectedByGravity = false
         self.enemy?.physicsBody?.mass = 200
         
-        self.bullet?.physicsBody = SKPhysicsBody(circleOfRadius: 10)
+        self.bullet?.physicsBody = SKPhysicsBody(circleOfRadius: 30)
         //self.bullet?.physicsBody = SKPhysicsBody(rectangleOf: CGSize (width: 100, height: 100))
         self.bullet?.physicsBody?.affectedByGravity = false
         self.bullet?.physicsBody?.mass = 20
         self.bullet?.position = CGPoint(x: 800, y: 300) //Moves initial bullet image offscreen out of play at 800x so that it doesn't interfere with gameplay.
+        self.upgrade?.physicsBody = SKPhysicsBody(circleOfRadius: 20)
         self.upgrade?.position = CGPoint(x: 800, y: -300) //Moves initial upgrade image offscreen out of play at 800x so that it doesn't interfere with gameplay.
         self.upgrade?.physicsBody?.affectedByGravity = false
         self.upgrade?.physicsBody?.mass = 40
@@ -102,16 +103,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate { //Added SKPhysicsContactDel
         //MyNotes: Create physics interactions using the enum UInt32 bitmasks above
         player!.physicsBody?.categoryBitMask = CollisionType.player.rawValue
         enemy!.physicsBody?.categoryBitMask = CollisionType.enemy.rawValue
+        bullet!.physicsBody?.categoryBitMask = CollisionType.bullet.rawValue
         upgrade!.physicsBody?.categoryBitMask = CollisionType.upgrade.rawValue
-
+        
+        
         player!.physicsBody?.collisionBitMask = CollisionType.enemy.rawValue | CollisionType.upgrade.rawValue //This line creates player to enemy collision detection ability, and uses a single bitwise "or" (|) operator to add possible interaction with "upgrade" nodes
         enemy!.physicsBody?.collisionBitMask = CollisionType.bullet.rawValue | CollisionType.player.rawValue
-       
+        bullet!.physicsBody?.collisionBitMask = CollisionType.enemy.rawValue
+        upgrade!.physicsBody?.collisionBitMask = CollisionType.player.rawValue
         
         player!.physicsBody?.contactTestBitMask = CollisionType.enemy.rawValue | CollisionType.player.rawValue
         enemy!.physicsBody?.contactTestBitMask = CollisionType.bullet.rawValue //This line creates bullet to enemy contact detection
+        upgrade!.physicsBody?.contactTestBitMask = CollisionType.enemy.rawValue | CollisionType.player.rawValue
         
-    
        
     }
     
@@ -141,7 +145,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate { //Added SKPhysicsContactDel
         
         //create  upgrade power-up nodes
         if let u = self.upgrade?.copy() as! SKShapeNode?{
-            u.position = player!.anchorPoint
+            u.position = player!.anchorPoint // Could probably just use 0,0
             self.addChild(u)
             u.strokeColor = SKColor.red
             u.fillColor = SKColor.red
@@ -175,7 +179,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate { //Added SKPhysicsContactDel
         let firstNode = sortedNodes[0]
         let secondNode = sortedNodes[1]
         
-        if secondNode.name == "enemy" { //shortcut here because if enemy is the second node then we know that the first can only be "bullet" because of the names of the classes "bullet, enemy, player, upgrade" are sorted in that order above.
+        if (firstNode.name == "bullet" && secondNode.name == "enemy") { //shortcut here would be just "if(secondNode == "enemy") because if enemy is the second node then we know that the first can only be "bullet" because of the names of the classes "bullet, enemy, player, upgrade" are sorted in that order above.
             firstNode.removeFromParent()
             secondNode.removeFromParent()
             kill_count += 1
@@ -184,17 +188,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate { //Added SKPhysicsContactDel
             // MyNotes: Contact Collision detection is not working here for some reason --FIXED --  have to make sure the contact bitmask is set above! -- "player!.physicsBody?.contactTestBitMask = CollisionType.enemy.rawValue"
         else if( ((firstNode.name == "enemy") && (secondNode.name == "player")) ){
             print("hero has been hit!")
+            firstNode.removeFromParent()
             //player?.removeFromParent()
+            Singleton.shared.recent_bugs_busted = kill_count
+            Singleton.shared.int_highscores.append(kill_count)
+            kill_count = 0;
+            count_label!.text = "Bugs Busted: " + String(kill_count)
+            Singleton.shared.int_highscores.sort(by: >)
+            Singleton.shared.int_highscores.remove(at: Singleton.shared.int_highscores.count-1)
+            for i in 0...Singleton.shared.int_highscores.count-1{
+                Singleton.shared.highscores[i] = String(Singleton.shared.int_highscores[i])
+            }
             
         }
         else if( ((firstNode.name == "player") && (secondNode.name == "upgrade"))  ){
             bullet_power_up += 1
             print("Upgrade contact!" + String(bullet_power_up))
+            secondNode.removeFromParent()
         }
-        
-        
-        
-        
+            /* //used this to test that bullet would make upgrade disappear
+        else if( ((firstNode.name == "bullet") && (secondNode.name == "upgrade"))  ){
+            bullet_power_up += 1
+            print("Upgrade contact!" + String(bullet_power_up))
+        }*/
     }
     func touchDown(atPoint pos : CGPoint) {
         
@@ -214,7 +230,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate { //Added SKPhysicsContactDel
 
               n.strokeColor = SKColor.green
               n.fillColor = SKColor.green
-              
+            //n.setScale(4.0)
+              //n.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(30 * bullet_power_up))
               self.addChild(n)
               
               //MyNotes: Next, create a movement path for the bullet object from the player to offscreen

@@ -24,7 +24,7 @@ class LeaderBoardViewController: UIViewController {
           tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -150).isActive = true
           tableView.backgroundColor = UIColor.lightGray
           
-          items.insert("Moves count from recent game win: " + String(Singleton.shared.bugs_busted), at: 0)
+          items.insert("Bugs Busted last round: " + String(Singleton.shared.recent_bugs_busted), at: 0)
 
       self.tableView = tableView
       }
