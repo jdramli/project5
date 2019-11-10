@@ -120,6 +120,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate { //Added SKPhysicsContactDel
         upgrade!.physicsBody?.contactTestBitMask = CollisionType.enemy.rawValue | CollisionType.player.rawValue
         
        
+
+       
     }
     
     @objc func runTimedCode(){
@@ -202,7 +204,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate { //Added SKPhysicsContactDel
             for i in 0...Singleton.shared.int_highscores.count-1{
                 Singleton.shared.highscores[i] = String(Singleton.shared.int_highscores[i])
             }
-            bullet_power_up = 0
+            bullet_power_up = 1
             upgrade_label!.text = "Upgrade level: " + String(bullet_power_up)
             
         }
@@ -232,17 +234,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate { //Added SKPhysicsContactDel
         //MyNotes: Next, make a copy of the bullet-sprite node for manipulation
         
         //if let n = self.picbullet?.copy() as! SKSpriteNode? {//uncomment this for picbullet
-        if let n = self.bullet?.copy() as! SKShapeNode? { //uncomment this for shape bullet
-              n.position = player!.anchorPoint //TODO: CRITICAL NOTE, MUST USE "anchorPoint" to generate proper player position when launching a sprite node from the player's "position"
-              //n.position = CGPoint(x:-100, y: -100)
-              //n.position = CGPoint(x: player!.position.x-30, y: player!.position.y+150)
-              //CRITICAL DEBUGGING ISSUE ENCOUNTERED -- SETTING THIS POSITION TO 0,0 USES THE ORIGINAL SCREEN 0,0 WHICH IS THE MIDDLE.  HOWEVER, THE 0,0 OF AN SKSHAPENODE IS THE BOTTOM-LEFT CORNER OF THE SCREEN.  NEED TO FIND A WAY TO LINK THESE TWO TO THE SAME POINT OF REFERENCE!!!
-              //print(pos)
-              //print(player!.anchorPoint)//anchor point is (0.5,0.5).  This seems to be a basis point for where the player position is derived?
-
-              n.strokeColor = SKColor.green
-              n.fillColor = SKColor.green
-              self.addChild(n)
+        self.bullet = SKShapeNode.init(circleOfRadius:CGFloat(Double(10) * bullet_power_up))
+        self.bullet?.name = "bullet" //MyNotes: Added name here for Collision detection
+        self.bullet?.position = CGPoint(x: frame.midX, y: frame.midY)
+        self.bullet?.strokeColor = SKColor.white
+        self.bullet?.fillColor = SKColor.white
+        self.bullet?.physicsBody = SKPhysicsBody(circleOfRadius:CGFloat(Double(10) * bullet_power_up))
+        self.bullet?.physicsBody?.affectedByGravity = false
+        bullet!.physicsBody?.categoryBitMask = CollisionType.bullet.rawValue
+        bullet!.physicsBody?.collisionBitMask = CollisionType.enemy.rawValue
+        self.addChild(bullet!)
               
               //MyNotes: Next, create a movement path for the bullet object from the player to offscreen
               //This section of code creates a path object and makes n move along the path
@@ -254,8 +255,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate { //Added SKPhysicsContactDel
               bulletpath.addLine(to: CGPoint(x:player!.position.x,y:player!.position.y+1500) ) //Added 1500 because that is a significant offscreen distance for the bullet to travel.
               let move = SKAction.follow(bulletpath.cgPath, asOffset: true, orientToPath: true, speed: 500)
               let sequence = SKAction.sequence([move, .removeFromParent()]) //This "sequence" is critical because it removes the bullet from parent with the function ".removeFromParent()" once the "move" function is complete
-              n.run(sequence)
-      }
+              bullet!.run(sequence)
+    
         
        
         

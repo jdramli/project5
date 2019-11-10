@@ -59,5 +59,11 @@ Progress log:\
 	Made the Leaderboard table update on contact between bug and hero and reset kill counter\
 	Experimenting with ideas for what power-up upgrades will do\
 \
-11/9: Maybe attach time read from the internet to the leaderboard.\
+11/9: Major shift in code from copy of bullet to re-creation of bullet on touchdown allows for bullet resize\
+	Ensured that all contacts and upgrades go up to a max level of 10 and increase bullet-size by 10 levels (increase radius by 1 each time)\
+	Contact detection and upgrades and highscores still work after bullet resize\
+	Experimented with "scale" and resize of copy but these were not effective.  Copying the creation code to touch-down seems to work for now\
+	Added another label node to show the upgrade level (number of red balls that the player contacted)\
+	Considering splitting off the game timer to reduce speed of power up node appearance (the current rate is great for testing though)\
+\
 }
