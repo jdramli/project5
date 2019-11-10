@@ -133,6 +133,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate { //Added SKPhysicsContactDel
         
         if let e = self.enemy?.copy() as! SKSpriteNode?{
             e.position = player!.anchorPoint
+            e.position = CGPoint( x: Double.random(in:-300...300), y: Double.random(in: -200...590)  )   
             self.addChild(e)
             let enemy_path = UIBezierPath()
             //adding a speed multiplier based on kill_count

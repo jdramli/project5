@@ -7,11 +7,20 @@
 
 \f0\fs24 \cf0 README\
 \
+Game title: BUG BUSTER\
+\
 Project 5 Multiple objects and collisions with better formatted code and use of classes in MVC format.\
 \
 The goal of this project for starters is to make a cleaner and better version of a game with collisions\
 and contacts.  Adding classes for a cleaner and more modifiable code-base and adding in arrays or \
 better use of built-in SpriteKit methods for handling groups of objects to keep things smooth and efficient is the goal.\
+\
+Overall, while the code is not well parsed into separate files, there are sections identified with comments.  Significant progress in understanding and execution of some structural game concepts such as:\
+-- Detailed implementation of multiple contact and collision detection for 4 different SKPhysics bodies.  \
+-- Changing game features/counters on certain contacts\
+--Implementation of a with different game timer separate from update  function\
+--Implementation of UIBezier Paths to change object routes and motions.\
+\
 \
 Progress log:\
 \
@@ -68,6 +77,17 @@ Progress log:\
 \
 11/10: Made more enemies spawn as kill_count rises. (Did not adjust their positions yet, so they come in a giant block)\
 	Increased enemy speed as well as kill count rises!\
+	\
+	Changed enemy start location on copy as speed increases.  Makes more of an enemy spread.\
+	Player bullet increases in size as upgrades are contacted! \
+	\
+\
+Optional things that are next to add are: \
+- Busted Bug animation.\
+-A "pause" on contact with enemy and player, and a shift to a "restart" button or screen.\
+-Maybe a second game scene with larger enemies.\
+\
+\
 	\
 \
 }
