@@ -34,9 +34,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate { //Added SKPhysicsContactDel
     private var enemy : SKSpriteNode?
     private var gameTimer: Timer? //Timer object to be called regularly
     private var count_label : SKLabelNode?
+    private var upgrade_label : SKLabelNode?
     private var kill_count = 0;
     
-    private var bullet_power_up = 1
+    private var bullet_power_up = 1.0
     
     override func sceneDidLoad() {
 
@@ -54,14 +55,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate { //Added SKPhysicsContactDel
         //Can this Section be shifted to a class file? This might help segregate out modifying bullet parameters and interactions
         //self.picbullet = self.childNode(withName: "//bullet") as? SKSpriteNode
         //Adding the option of a shape bullet or a sprite bullet by building both for now
-        self.bullet = SKShapeNode.init(circleOfRadius: 10)
+        //self.bullet = SKShapeNode.init(circleOfRadius: 10)
+        self.bullet = SKShapeNode.init(circleOfRadius:CGFloat(Double(10) * bullet_power_up))
         self.bullet?.name = "bullet" //MyNotes: Added name here for Collision detection
         self.bullet?.position = CGPoint(x: frame.midX, y: frame.midY)
         self.bullet?.strokeColor = SKColor.white
         self.bullet?.fillColor = SKColor.white
         self.addChild(bullet!)
       
-        self.upgrade = SKShapeNode.init(circleOfRadius: 30)
+        self.upgrade = SKShapeNode.init(circleOfRadius: 20)
         self.upgrade?.name = "upgrade" //MyNotes: Added name here for Collision detection
         self.upgrade?.position = CGPoint(x: frame.midX + 40, y: frame.midY + 100)
         self.upgrade?.strokeColor = SKColor.red
@@ -71,6 +73,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate { //Added SKPhysicsContactDel
         self.player = self.childNode(withName: "//player") as? SKSpriteNode
         self.enemy = self.childNode(withName: "//enemy") as? SKSpriteNode
         self.count_label = self.childNode(withName: "//count_label") as? SKLabelNode
+        self.upgrade_label = self.childNode(withName: "//upgrade_label") as? SKLabelNode
         //let moveRect = SKAction.moveTo(x: 74.0, duration: 0) //This was just a test line
         //player!.run(moveRect) //This was just a test line
         
@@ -84,15 +87,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate { //Added SKPhysicsContactDel
         self.enemy?.physicsBody?.affectedByGravity = false
         self.enemy?.physicsBody?.mass = 200
         
-        self.bullet?.physicsBody = SKPhysicsBody(circleOfRadius: 30)
+        self.bullet?.physicsBody = SKPhysicsBody(circleOfRadius: 10)
         //self.bullet?.physicsBody = SKPhysicsBody(rectangleOf: CGSize (width: 100, height: 100))
         self.bullet?.physicsBody?.affectedByGravity = false
-        self.bullet?.physicsBody?.mass = 20
+        //self.bullet?.physicsBody?.mass = 20
         self.bullet?.position = CGPoint(x: 800, y: 300) //Moves initial bullet image offscreen out of play at 800x so that it doesn't interfere with gameplay.
         self.upgrade?.physicsBody = SKPhysicsBody(circleOfRadius: 20)
         self.upgrade?.position = CGPoint(x: 800, y: -300) //Moves initial upgrade image offscreen out of play at 800x so that it doesn't interfere with gameplay.
         self.upgrade?.physicsBody?.affectedByGravity = false
-        self.upgrade?.physicsBody?.mass = 40
+        //self.upgrade?.physicsBody?.mass = 40
         
         //self.enemy?.isHidden = true
         //self.enemy?.removeFromParent() // this creates a funny glitch where enemies spawn from the center.
@@ -143,7 +146,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate { //Added SKPhysicsContactDel
             } */
         }
         
-        //create  upgrade power-up nodes
+        //create  upgrade power-up nodes and set their path.
         if let u = self.upgrade?.copy() as! SKShapeNode?{
             u.position = player!.anchorPoint // Could probably just use 0,0
             self.addChild(u)
@@ -199,10 +202,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate { //Added SKPhysicsContactDel
             for i in 0...Singleton.shared.int_highscores.count-1{
                 Singleton.shared.highscores[i] = String(Singleton.shared.int_highscores[i])
             }
+            bullet_power_up = 0
+            upgrade_label!.text = "Upgrade level: " + String(bullet_power_up)
             
         }
         else if( ((firstNode.name == "player") && (secondNode.name == "upgrade"))  ){
-            bullet_power_up += 1
+            if(bullet_power_up > 9){
+                //do nothing
+            }
+            else{
+                bullet_power_up += 1 //increase bullet size!
+                upgrade_label!.text = "Upgrade level: " + String(Int(bullet_power_up))
+            }
+            
             print("Upgrade contact!" + String(bullet_power_up))
             secondNode.removeFromParent()
         }
@@ -230,8 +242,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate { //Added SKPhysicsContactDel
 
               n.strokeColor = SKColor.green
               n.fillColor = SKColor.green
-            //n.setScale(4.0)
-              //n.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(30 * bullet_power_up))
               self.addChild(n)
               
               //MyNotes: Next, create a movement path for the bullet object from the player to offscreen
