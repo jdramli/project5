@@ -126,8 +126,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate { //Added SKPhysicsContactDel
     
     @objc func runTimedCode(){
         //create enemy nodes
-        let multiplier = 2
-        //let multiplier = kill_count / 10 //MyNotes: This can varied in equation style to vary bug speed a lot
+        //let multiplier = 2
+        let multiplier = (kill_count / 10) + 1 //MyNotes: This can varied in equation style to vary bug speed a lot
+        for _ in 0...multiplier{
+            
+        
         if let e = self.enemy?.copy() as! SKSpriteNode?{
             e.position = player!.anchorPoint
             self.addChild(e)
@@ -146,6 +149,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate { //Added SKPhysicsContactDel
                 print("Bug Escaped!")
                 
             } */
+        }
         }
         
         //create  upgrade power-up nodes and set their path.
